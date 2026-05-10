@@ -103,13 +103,33 @@ export default function App() {
                 sub={settings ? settings.model : 'Configure your API key'}
                 onClick={() => { setSettingsOpen(true); setMenuOpen(false); }}
               />
-              <DrawerItem
-                icon={<Crown className="h-4 w-4" />}
-                label={tier === 'masters' ? 'Masters — Active' : 'Ascend to Masters'}
-                sub={tier === 'masters' ? 'Full forge unlocked' : 'Unlock Library, Playground, Diff & Export'}
-                onClick={() => { setMastersOpen(true); setMenuOpen(false); }}
-                highlight={false}
-              />
+              {tier === 'masters' ? (
+                <DrawerItem
+                  icon={<Crown className="h-4 w-4" />}
+                  label="Masters — Active"
+                  sub="Full forge unlocked"
+                  onClick={() => { setMastersOpen(true); setMenuOpen(false); }}
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => { setMastersOpen(true); setMenuOpen(false); }}
+                  className="group relative flex w-full items-start gap-3 rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-white/5"
+                >
+                  <span className="mt-0.5 text-templar-text/35">
+                    <Crown className="h-4 w-4" />
+                  </span>
+                  <span className="flex flex-col gap-0.5">
+                    <span className="text-xs font-semibold uppercase tracking-[0.15em] text-templar-text/35">
+                      Ascend to Masters
+                    </span>
+                    <span className="text-[0.65rem] text-templar-text/25">Unlock Library, Playground, Diff &amp; Export</span>
+                  </span>
+                  <span className="absolute right-2.5 top-2.5 opacity-0 transition-opacity group-hover:opacity-100">
+                    <MastersBadge size="sm" />
+                  </span>
+                </button>
+              )}
             </nav>
           </div>
         )}
