@@ -103,10 +103,10 @@ export function MastersGate({ children, teaser = false }: GateProps) {
           </p>
           <button
             type="button"
-            onClick={() => setModalOpen(true)}
-            className="rounded-lg border border-templar-sand/60 bg-templar-sand/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-templar-sand shadow-[0_0_16px_rgba(212,199,165,0.15)] transition-all hover:bg-templar-sand/20 hover:shadow-[0_0_24px_rgba(212,199,165,0.25)]"
+            disabled
+            className="cursor-not-allowed rounded-lg border border-templar-sand/20 bg-transparent px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-templar-sand/30"
           >
-            Ascend to Masters · Unlock
+            Coming Soon
           </button>
         </div>
       </div>

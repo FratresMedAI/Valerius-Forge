@@ -113,8 +113,8 @@ export default function App() {
               ) : (
                 <button
                   type="button"
-                  onClick={() => { setMastersOpen(true); setMenuOpen(false); }}
-                  className="group relative flex w-full items-start gap-3 rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-white/5"
+                  disabled
+                  className="group relative flex w-full cursor-not-allowed items-start gap-3 rounded-lg px-3 py-2.5 text-left"
                 >
                   <span className="mt-0.5 text-templar-text/35">
                     <Crown className="h-4 w-4" />

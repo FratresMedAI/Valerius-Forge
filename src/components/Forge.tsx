@@ -412,10 +412,10 @@ function MastersBar({
         <button
           key={key}
           type="button"
-          onClick={onAscend}
-          title={`${label} — Masters only`}
-          aria-label={`${label} — Masters only`}
-          className="group relative inline-flex items-center justify-center rounded border border-templar-sand/15 bg-black/20 p-2 text-templar-text/35 transition-colors hover:border-templar-sand/35 hover:text-templar-text/60"
+          disabled
+          title={`${label} — Coming soon`}
+          aria-label={`${label} — Coming soon`}
+          className="inline-flex cursor-not-allowed items-center justify-center rounded border border-templar-sand/10 bg-black/20 p-2 text-templar-text/20"
         >
           <Icon className="h-3.5 w-3.5" />
           <span className="absolute -right-1 -top-1 opacity-0 transition-opacity group-hover:opacity-100">
