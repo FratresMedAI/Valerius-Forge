@@ -108,7 +108,7 @@ export default function App() {
                 label={tier === 'masters' ? 'Masters — Active' : 'Ascend to Masters'}
                 sub={tier === 'masters' ? 'Full forge unlocked' : 'Unlock Library, Playground, Diff & Export'}
                 onClick={() => { setMastersOpen(true); setMenuOpen(false); }}
-                highlight={tier !== 'masters'}
+                highlight={false}
               />
             </nav>
           </div>
