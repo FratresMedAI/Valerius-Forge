@@ -32,7 +32,7 @@ Classify every request as:
 1. **## Detected Signals**
    Clean, insightful tags (Kind, Personality, Core Features, Constraints, Output Style, etc.) as a bulleted list.
 
-2. **## Forged Agent System Prompt** (Agent Prompt Mode) OR **## Cursor-Ready Prompt** (Full Project Mode)
+2. **## Forged Agent System Prompt** (Agent Prompt Mode) OR **## Coding-Agent-Ready Prompt** (Full Project Mode)
    In Agent Prompt Mode, create an exceptionally polished system prompt containing in order:
    - Role & Personality
    - Goals & Success Criteria

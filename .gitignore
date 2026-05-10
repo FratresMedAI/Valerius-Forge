@@ -12,6 +12,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+*.tsbuildinfo
+*.mp4
+*.mov
+*.avi
 
 .env
 .env.local

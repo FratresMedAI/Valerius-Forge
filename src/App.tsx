@@ -126,6 +126,7 @@ export default function App() {
             externalBrief={externalBrief}
             onPayloadChange={setCurrentPayload}
             onOpenSettings={() => setSettingsOpen(true)}
+            onOpenLibrary={() => setLibraryOpen(true)}
             resetNonce={resetNonce}
           />
         </main>
