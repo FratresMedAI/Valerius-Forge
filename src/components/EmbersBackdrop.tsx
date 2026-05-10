@@ -38,6 +38,25 @@ export function EmbersBackdrop() {
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
       style={{ contain: 'strict' }}
     >
+      {/* Chainmail texture — faint, behind everything */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'url(/chainmail.png)',
+          backgroundSize: '600px',
+          backgroundRepeat: 'repeat',
+          opacity: 0.07,
+          mixBlendMode: 'screen',
+        }}
+      />
+      {/* Vignette to fade chainmail at the edges */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(15,12,10,0.85) 100%)',
+        }}
+      />
       <div className="valerius-haze left" />
       <div className="valerius-haze right" />
       {embers.map((e, i) => (
