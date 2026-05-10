@@ -1,0 +1,12 @@
+services:
+  mini-templar:
+    image: occisorleonum/mini-x-templar-gray-swan:grayswan-2026-04-24
+    container_name: suggestio-mini-templar
+    ports:
+      - "8090:8080"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
