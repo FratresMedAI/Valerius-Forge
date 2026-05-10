@@ -366,7 +366,6 @@ const MASTERS_TOOLS = [
 
 function MastersBar({
   tier,
-  onAscend,
   onLibrary,
   onPlayground,
   onDiff,
