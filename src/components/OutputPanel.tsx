@@ -62,7 +62,7 @@ function Card({ title, action, children, className, index = 0, masterwork = fals
   return (
     <section
       className={
-        'valerius-card valerius-card-cool relative rounded-xl border bg-white/[0.02] p-6 shadow-[0_0_40px_-20px_rgba(212,199,165,0.3)] ' +
+        'valerius-card valerius-card-cool relative rounded-xl border bg-templar-bg/95 p-6 shadow-[0_0_40px_-20px_rgba(212,199,165,0.3)] ' +
         (masterwork ? 'border-templar-sand/70 ' : 'border-templar-sand/20 ') +
         (className ?? '')
       }

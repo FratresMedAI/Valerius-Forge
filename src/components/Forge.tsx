@@ -245,7 +245,7 @@ export function Forge({ settings, externalBrief, onPayloadChange, onOpenSettings
         )}
       </div>
 
-      <div className="rounded-2xl border border-templar-sand/25 bg-white/[0.02] p-2 shadow-[0_0_60px_-30px_rgba(212,199,165,0.4)]">
+      <div className="rounded-2xl border border-templar-sand/25 bg-templar-bg/95 p-2 shadow-[0_0_60px_-30px_rgba(212,199,165,0.4)]">
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
