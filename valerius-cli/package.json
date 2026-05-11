@@ -1,10 +1,10 @@
 {
-  "name": "@fratresmedai/valerius",
+  "name": "@fratresxai/valerius",
   "version": "0.1.0",
   "description": "Forge AI-ready agent prompts and project briefs from your terminal — BYOK (OpenAI, Anthropic, Google, xAI, OpenRouter, Ollama).",
   "type": "module",
   "bin": {
-    "valerius": "./dist/cli.js"
+    "valerius": "dist/cli.js"
   },
   "files": [
     "dist",
