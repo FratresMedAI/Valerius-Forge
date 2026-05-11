@@ -158,7 +158,7 @@ export default function App() {
           />
         </main>
         <footer className="border-t border-templar-sand/10 py-8 text-center text-xs uppercase tracking-[0.32em] text-templar-sand/80">
-          Powered by Fratres X AI
+          Property of Fratres X AI · Powered by Cursor©
         </footer>
       </div>
 
