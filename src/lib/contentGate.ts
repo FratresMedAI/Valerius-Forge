@@ -49,6 +49,10 @@ const PATTERNS: PatternRule[] = [
     category: 'csam',
     re: /\b(porn|sexual|nude|nudity|naked|abuse|exploit|grooming|molest)\b[\s\S]{0,40}\b(child|children|minor|minors|underage|preteen|kid|kids|toddler|infant)/i,
   },
+  {
+    category: 'csam',
+    re: /\b(csam|child sexual abuse material|child pornography|child porn|cp porn|loli|lolicon|shota|shotacon)\b/i,
+  },
 
   // Terrorism / mass-harm weapons
   {
@@ -75,7 +79,11 @@ const PATTERNS: PatternRule[] = [
   },
   {
     category: 'fraud_scam',
-    re: /\b(steal|drain|empty|siphon|skim)\b[\s\S]{0,30}\b(money|funds|account|accounts|wallet|wallets|crypto)\b/i,
+    re: /\b(steal|drain|empty|siphon|skim)\b[\s\S]{0,30}\b(money|funds|account|accounts|wallet|wallets|crypto|credit card|credit cards|card numbers?|card details?)\b/i,
+  },
+  {
+    category: 'fraud_scam',
+    re: /\b(phish(?:ing)?|phishing email|spear.?phish)\b[\s\S]{0,60}\b(steal|harvest|grab|capture|collect)\b/i,
   },
   {
     category: 'fraud_scam',
@@ -177,6 +185,14 @@ const PATTERNS: PatternRule[] = [
   {
     category: 'targeted_violence',
     re: /\b(find|dox|doxx|expose|leak)\b[\s\S]{0,30}\b(home address|personal address|real name|ssn|social security|phone number)\b[\s\S]{0,40}\b(so (?:i|we) can|to (?:hurt|harm|kill|attack|confront|threaten))/i,
+  },
+  {
+    category: 'targeted_violence',
+    re: /\b(harassment|harass|intimidat|stalk|threaten|smear)\b[\s\S]{0,30}\b(campaign|operation|coordinated|against)\b[\s\S]{0,40}\b([A-Z][a-z]+ [A-Z][a-z]+|specific person|this person|named person|my (?:ex|boss|neighbor|coworker|teacher))\b/,
+  },
+  {
+    category: 'targeted_violence',
+    re: /\b(targeted|coordinate[d]?)\b[\s\S]{0,20}\b(harassment|abuse|bullying|hate campaign|smear campaign|intimidation)\b/i,
   },
 ];
 

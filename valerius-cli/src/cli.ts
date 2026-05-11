@@ -8,7 +8,7 @@ import { c, gold, ember, steel, symbol } from './colors.js';
 import { COMMON_MODELS } from './models.js';
 import { PROVIDER_LABELS, DEFAULT_LOCAL_BASE_URL, type Provider } from './llm.js';
 
-const VERSION = '0.1.3';
+const VERSION = '0.1.4';
 
 // ─── Banner ───────────────────────────────────────────────────────────────
 function banner(): string {
@@ -80,9 +80,14 @@ function askSecret(question: string): Promise<string> {
 async function readStdin(): Promise<string> {
   return new Promise((resolve) => {
     let data = '';
+    let resolved = false;
+    const done = () => { if (!resolved) { resolved = true; resolve(data); } };
     process.stdin.setEncoding('utf-8');
     process.stdin.on('data', (chunk) => { data += chunk; });
-    process.stdin.on('end', () => resolve(data));
+    process.stdin.on('end', done);
+    process.stdin.on('close', done);
+    // Safety timeout — if stdin never closes (e.g. non-TTY shell), bail out after 2s
+    setTimeout(done, 2000);
   });
 }
 
@@ -212,15 +217,23 @@ program
   }) => {
     let brief = briefArg ?? '';
 
-    // stdin support: `-` or piped input
-    if (brief === '-' || (!brief && !process.stdin.isTTY)) {
+    // stdin support: `-` explicit or piped input (only when no arg was given at all)
+    if (brief === '-' || (briefArg === undefined && !process.stdin.isTTY)) {
       brief = (await readStdin()).trim();
     }
 
-    if (!brief) {
+    if (!brief.trim()) {
       process.stderr.write(`${symbol.err} ${c.red('No brief provided.')} ${c.gray('Try:')} ${gold('valerius forge "your brief here"')}\n`);
       process.exit(1);
     }
+    brief = brief.trim();
+
+    // Validate mode before anything else (fast, no I/O needed)
+    if (!['auto', 'agent', 'project'].includes(options.mode)) {
+      process.stderr.write(`${symbol.err} ${c.red(`Invalid mode: "${options.mode}"`)}\n  Valid modes: ${gold('auto')} · ${gold('agent')} · ${gold('project')}\n`);
+      process.exit(1);
+    }
+    const mode = options.mode as ForgeMode;
 
     const gate = evaluateContent(brief);
     if (gate.blocked) {
@@ -240,10 +253,6 @@ program
       process.stderr.write(`${symbol.err} ${c.red('No provider set.')} ${c.gray('Run:')} ${gold('valerius init')}\n`);
       process.exit(1);
     }
-
-    const mode = (['auto', 'agent', 'project'].includes(options.mode)
-      ? options.mode
-      : 'auto') as ForgeMode;
 
     const output = await runForge(brief, mode, config);
 
@@ -347,7 +356,7 @@ configCmd
   .description('Show current configuration')
   .action(() => {
     const config = loadConfig();
-    if (!config.provider && !config.apiKey) {
+    if (!config.provider && !config.apiKey && !config.model) {
       process.stdout.write(c.gray('No configuration found. Run: ') + gold('valerius init') + '\n');
       return;
     }
