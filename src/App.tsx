@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Menu, X, Settings as SettingsIcon, Crown, BookMarked, ArrowUp } from 'lucide-react';
+import { Menu, X, Settings as SettingsIcon, Crown, BookMarked, ArrowUp, ScrollText } from 'lucide-react';
 import { Hero } from './components/Hero';
 import { Forge } from './components/Forge';
 import { SettingsPanel } from './components/SettingsPanel';
@@ -18,6 +18,7 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [mastersOpen, setMastersOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [readmeOpen, setReadmeOpen] = useState(false);
   const [libraryOpen, setLibraryOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [resetNonce, setResetNonce] = useState(0);
@@ -103,6 +104,12 @@ export default function App() {
                 sub={settings ? settings.model : 'Configure your API key'}
                 onClick={() => { setSettingsOpen(true); setMenuOpen(false); }}
               />
+              <DrawerItem
+                icon={<ScrollText className="h-4 w-4" />}
+                label="About Valerius"
+                sub="What it is, how it works"
+                onClick={() => { setReadmeOpen(true); setMenuOpen(false); }}
+              />
               {tier === 'masters' ? (
                 <DrawerItem
                   icon={<Crown className="h-4 w-4" />}
@@ -173,6 +180,7 @@ export default function App() {
 
       <SettingsPanel open={settingsOpen} onClose={() => setSettingsOpen(false)} onChange={setSettings} />
       {mastersOpen && <MastersModal onClose={() => setMastersOpen(false)} />}
+      {readmeOpen && <ReadmeModal onClose={() => setReadmeOpen(false)} />}
 
       {/* ── Scroll-to-top FAB ── */}
       {showScrollTop && (
@@ -197,6 +205,86 @@ export default function App() {
         <span className="text-base leading-none">↺</span>
         Reset
       </button>
+    </div>
+  );
+}
+
+function ReadmeModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal>
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} aria-hidden />
+      <div className="relative z-10 w-full max-w-lg rounded-2xl border border-templar-sand/20 bg-[#0f0f0f] shadow-[0_0_60px_rgba(0,0,0,0.9)]">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-templar-sand/10 px-6 py-4">
+          <h2 className="font-title text-lg text-templar-sand">About Valerius</h2>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className="text-templar-text/40 transition-colors hover:text-templar-text"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="space-y-5 overflow-y-auto px-6 py-5 text-sm text-templar-text/80 max-h-[70vh] scroll-thin">
+          <p className="text-templar-text/60 text-xs uppercase tracking-[0.2em]">The Prompt Forge</p>
+          <p>
+            Valerius turns a single sentence into a battle-ready AI agent system prompt or a full coding-agent project spec — streamed directly from your own API key.
+          </p>
+
+          <div className="h-px bg-templar-sand/10" />
+
+          <div>
+            <h3 className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-templar-sand/70">Two Output Modes</h3>
+            <ul className="space-y-2 text-xs text-templar-text/60">
+              <li><span className="text-templar-sand/80">Agent Prompt</span> — a structured system prompt with role, goals, tools, conversation flow, and edge cases. Drop it directly into any AI tool.</li>
+              <li><span className="text-templar-sand/80">Full Project</span> — a coding-agent brief with Mermaid diagram, tech stack, build phases, and time estimate. Works with Cursor, Windsurf, Copilot, and more.</li>
+            </ul>
+          </div>
+
+          <div className="h-px bg-templar-sand/10" />
+
+          <div>
+            <h3 className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-templar-sand/70">BYOK — Bring Your Own Key</h3>
+            <p className="text-xs text-templar-text/60">
+              Your API key is stored only in this browser's local storage and sent directly to your chosen provider. Valerius never proxies, logs, or stores your key or your prompts.
+            </p>
+            <ul className="mt-2 space-y-1 text-xs text-templar-text/50">
+              <li>· OpenAI (GPT-4o, GPT-5, o3…)</li>
+              <li>· Anthropic (Claude Opus, Sonnet…)</li>
+              <li>· Google (Gemini 2.5 Pro/Flash)</li>
+              <li>· xAI (Grok 3, Grok 4)</li>
+              <li>· OpenRouter (100+ models, one key)</li>
+              <li>· Local LLM (Ollama, LM Studio)</li>
+            </ul>
+          </div>
+
+          <div className="h-px bg-templar-sand/10" />
+
+          <div>
+            <h3 className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-templar-sand/70">Safety</h3>
+            <p className="text-xs text-templar-text/60">
+              Every forge runs through a content gate before any LLM call. Requests involving fraud, credential theft, unauthorized account access, financial automation, or targeted harm are blocked immediately.
+            </p>
+          </div>
+
+          <div className="h-px bg-templar-sand/10" />
+
+          <div className="flex items-center justify-between text-[0.65rem] text-templar-text/30 uppercase tracking-[0.15em]">
+            <span>Fratres X AI</span>
+            <a
+              href="https://github.com/FratresMedAI/Valerius-Forge"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-templar-sand/60"
+            >
+              GitHub ↗
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
