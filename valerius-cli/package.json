@@ -1,0 +1,62 @@
+{
+  "name": "@fratresmedai/valerius",
+  "version": "0.1.0",
+  "description": "Forge AI-ready agent prompts and project briefs from your terminal — BYOK (OpenAI, Anthropic, Google, xAI, OpenRouter, Ollama).",
+  "type": "module",
+  "bin": {
+    "valerius": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/cli.js",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "clipboardy": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^22.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "homepage": "https://valerius-forge.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FratresMedAI/Valerius-Forge.git",
+    "directory": "valerius-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/FratresMedAI/Valerius-Forge/issues"
+  },
+  "keywords": [
+    "ai",
+    "llm",
+    "prompt",
+    "agent",
+    "forge",
+    "byok",
+    "cli",
+    "terminal",
+    "openai",
+    "anthropic",
+    "claude",
+    "gemini",
+    "grok",
+    "openrouter",
+    "ollama",
+    "valerius"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
