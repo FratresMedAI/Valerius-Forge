@@ -3,11 +3,12 @@ import { Command } from 'commander';
 import * as readline from 'readline';
 import { loadConfig, saveConfig, clearConfig } from './config.js';
 import { runForge, type ForgeMode } from './stream.js';
+import { evaluateContent } from './contentGate.js';
 import { c, gold, ember, steel, symbol } from './colors.js';
 import { COMMON_MODELS } from './models.js';
 import { PROVIDER_LABELS, DEFAULT_LOCAL_BASE_URL, type Provider } from './llm.js';
 
-const VERSION = '0.1.2';
+const VERSION = '0.1.3';
 
 // ─── Banner ───────────────────────────────────────────────────────────────
 function banner(): string {
@@ -218,6 +219,12 @@ program
 
     if (!brief) {
       process.stderr.write(`${symbol.err} ${c.red('No brief provided.')} ${c.gray('Try:')} ${gold('valerius forge "your brief here"')}\n`);
+      process.exit(1);
+    }
+
+    const gate = evaluateContent(brief);
+    if (gate.blocked) {
+      process.stdout.write('I cannot assist with that request.\n');
       process.exit(1);
     }
 
