@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'none'; style-src {{cspSource}} 'nonce-{{nonce}}'; script-src 'nonce-{{nonce}}';"
+  />
+  <link rel="stylesheet" href="{{styleUri}}" />
+  <title>Valerius Forge</title>
+</head>
+<body>
+  <div class="header">
+    <h1>⚡ Valerius Forge</h1>
+    <span class="badge">BYOK</span>
+  </div>
+
+  <div class="input-section">
+    <textarea
+      id="brief"
+      placeholder="Describe what you want to forge — an agent, a full project spec, a system prompt…"
+      rows="5"
+      autofocus
+    ></textarea>
+
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="auto">Auto</button>
+      <button class="mode-btn" data-mode="agent">Agent Prompt</button>
+      <button class="mode-btn" data-mode="project">Full Project</button>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button class="forge-btn" id="forgeBtn">
+      🔥 Forge
+    </button>
+    <button class="stop-btn" id="stopBtn">■ Stop</button>
+    <div class="loading" id="loading">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span style="margin-left:4px;">Forging…</span>
+    </div>
+  </div>
+
+  <div class="error-msg" id="errorMsg"></div>
+
+  <div class="output-section" id="outputSection">
+    <div class="output-header">
+      <span class="output-label">Forge Output</span>
+      <button class="copy-btn" id="copyBtn">Copy</button>
+    </div>
+    <pre class="output-pre" id="output"></pre>
+  </div>
+
+  <div class="settings-row" id="settingsRow">
+    <div class="provider-info">
+      <span>Provider:</span>
+      <span class="chip" id="providerChip">—</span>
+    </div>
+    <div class="provider-info">
+      <span>Model:</span>
+      <span class="chip" id="modelChip">—</span>
+    </div>
+    <div class="provider-info">
+      <span id="keyStatus">No key set</span>
+    </div>
+    <a id="configLink">⚙ Configure</a>
+  </div>
+
+  <script nonce="{{nonce}}" src="{{scriptUri}}"></script>
+</body>
+</html>
