@@ -7,7 +7,7 @@ import { c, gold, ember, steel, symbol } from './colors.js';
 import { COMMON_MODELS } from './models.js';
 import { PROVIDER_LABELS, DEFAULT_LOCAL_BASE_URL, type Provider } from './llm.js';
 
-const VERSION = '0.1.0';
+const VERSION = '0.1.2';
 
 // ─── Banner ───────────────────────────────────────────────────────────────
 function banner(): string {
