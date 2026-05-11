@@ -11,10 +11,10 @@
     <a href="./valerius-raycast">Raycast Extension</a>
   </p>
   <br />
-  <a href="https://www.npmjs.com/package/@fratresxai/valerius"><img src="https://img.shields.io/npm/v/@fratresxai/valerius?color=D4C7A5&label=npm&style=flat-square" alt="npm version" /></a>
-  <img src="https://img.shields.io/badge/node-%3E%3D18-D4C7A5?style=flat-square" alt="node ≥18" />
-  <img src="https://img.shields.io/badge/BYOK-no%20middleman-D4C7A5?style=flat-square" alt="BYOK" />
-  <img src="https://img.shields.io/badge/license-MIT-D4C7A5?style=flat-square" alt="MIT License" />
+  <a href="https://www.npmjs.com/package/@fratresxai/valerius"><img src="https://img.shields.io/npm/v/@fratresxai/valerius?color=D4C7A5&labelColor=1a1a1a&label=npm&style=for-the-badge" alt="npm version" /></a>
+  <img src="https://img.shields.io/badge/node-%3E%3D18-D4C7A5?style=for-the-badge&labelColor=1a1a1a" alt="node ≥18" />
+  <img src="https://img.shields.io/badge/BYOK-no%20middleman-D4C7A5?style=for-the-badge&labelColor=1a1a1a" alt="BYOK" />
+  <img src="https://img.shields.io/badge/license-MIT-D4C7A5?style=for-the-badge&labelColor=1a1a1a" alt="MIT License" />
   <br /><br />
 </div>
 
