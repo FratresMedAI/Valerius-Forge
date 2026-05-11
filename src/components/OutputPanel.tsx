@@ -272,10 +272,11 @@ function RefinementsCard({
             type="button"
             aria-label={`Refine and re-forge: ${r}`}
             onClick={() => onAppendInput?.(r)}
-            className="valerius-rune group relative bg-gradient-to-b from-templar-sand/15 to-templar-sand/5 px-4 py-2 text-xs font-medium text-templar-sand transition-all hover:from-templar-sand/30 hover:to-templar-sand/10 hover:text-templar-bg"
+            className="valerius-rune group relative px-5 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-templar-sand transition-all hover:brightness-125"
             style={{
               animationDelay: `${i * 220}ms`,
-              border: '1px solid rgba(212, 199, 165, 0.45)',
+              border: '1px solid rgba(212, 199, 165, 0.30)',
+              borderTop: '1px solid rgba(212, 199, 165, 0.55)',
             }}
           >
             <span className="relative z-10">{r}</span>
@@ -283,7 +284,7 @@ function RefinementsCard({
         ))}
       </div>
       <p className="mt-3 text-[0.65rem] uppercase tracking-[0.18em] text-templar-text/40">
-        Tap a rune to append &amp; re-forge.
+        Select to append &amp; re-forge.
       </p>
     </Card>
   );

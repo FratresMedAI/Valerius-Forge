@@ -1,14 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Flame, ShieldAlert, ShieldCheck, ShieldOff, Loader2, BookMarked, MessageSquare, GitCompare, Download } from 'lucide-react';
+import { Flame, ShieldAlert, ShieldCheck, ShieldOff, Loader2 } from 'lucide-react';
 import { generate, generateAgentPrompt, detectMode, type Suggestion, type AgentSuggestion } from '../lib/generate';
 import { guard, type GuardResult } from '../lib/guardrail';
 import { evaluateContent, reportViolation, SAFETY_REFUSAL_MESSAGE } from '../lib/contentGate';
 import { streamForge, type LLMSettings } from '../lib/llm';
 import { META_SYSTEM_PROMPT } from '../lib/metaPrompt';
 import { OutputPanel, type OutputPayload } from './OutputPanel';
-import { MastersBadge } from './MastersBadge';
-import { MastersModal } from './MastersUpsell';
-import { useTier } from '../lib/tier';
 import { emit, pushRecent } from '../lib/forgeEvents';
 
 type Status = 'idle' | 'checking' | 'streaming' | 'blocked' | 'allowed' | 'unavailable' | 'error' | 'refused';
@@ -28,13 +25,10 @@ interface ForgeProps {
   onPayloadChange?: (payload: OutputPayload | null) => void;
   onOpenSettings?: () => void;
   onOpenLibrary?: () => void;
-  onOpenPlayground?: () => void;
-  onOpenDiff?: () => void;
-  onOpenExport?: () => void;
   resetNonce?: number;
 }
 
-export function Forge({ settings, externalBrief, onPayloadChange, onOpenSettings, onOpenLibrary, onOpenPlayground, onOpenDiff, onOpenExport, resetNonce }: ForgeProps) {
+export function Forge({ settings, externalBrief, onPayloadChange, onOpenSettings, resetNonce }: ForgeProps) {
   const [input, setInput] = useState('');
   const [modeChoice, setModeChoice] = useState<ModeChoice>('auto');
   const [status, setStatus] = useState<Status>('idle');
@@ -44,8 +38,6 @@ export function Forge({ settings, externalBrief, onPayloadChange, onOpenSettings
   const [streamError, setStreamError] = useState<string | null>(null);
   const [captionIdx, setCaptionIdx] = useState(0);
   const [ctrlDown, setCtrlDown] = useState(false);
-  const [mastersModalOpen, setMastersModalOpen] = useState(false);
-  const [tier] = useTier();
   const abortRef = useRef<AbortController | null>(null);
   // Track latest input value for autoforge triggered by refinement chip
   const latestInputRef = useRef(input);
@@ -260,19 +252,9 @@ export function Forge({ settings, externalBrief, onPayloadChange, onOpenSettings
           }
           className="scroll-thin block w-full resize-y rounded-xl bg-transparent p-5 font-display text-base text-templar-text placeholder:text-templar-text/30 focus:outline-none"
         />
-        <div className="flex flex-wrap items-center justify-between gap-3 px-3 pb-3 pt-1">
-          {/* ── Left: Masters feature quick-launch buttons ── */}
-          <MastersBar
-            tier={tier}
-            onAscend={() => setMastersModalOpen(true)}
-            onLibrary={onOpenLibrary}
-            onPlayground={onOpenPlayground}
-            onDiff={onOpenDiff}
-            onExport={onOpenExport}
-          />
-
-          {/* ── Right: Ctrl+Enter hint + Forge button ── */}
-          <div className="ml-auto flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-end gap-3 px-3 pb-3 pt-1">
+          {/* ── Ctrl+Enter hint + Forge button ── */}
+          <div className="flex items-center gap-3">
             <span className="text-xs uppercase tracking-[0.16em] text-templar-text/40">
               <kbd
                 className={
@@ -324,7 +306,6 @@ export function Forge({ settings, externalBrief, onPayloadChange, onOpenSettings
 
       {payload && <OutputPanel payload={payload} onAppendInput={onAppendInput} onOpenSettings={onOpenSettings} />}
 
-      {mastersModalOpen && <MastersModal onClose={() => setMastersModalOpen(false)} />}
     </section>
   );
 }
@@ -356,75 +337,6 @@ function ForgeFlames() {
   );
 }
 
-// Masters quick-launch bar (left side of the forge toolbar)
-const MASTERS_TOOLS = [
-  { key: 'library',    icon: BookMarked,    label: 'Forge Library' },
-  { key: 'playground', icon: MessageSquare, label: 'Playground'    },
-  { key: 'diff',       icon: GitCompare,    label: 'Forge Diff'    },
-  { key: 'export',     icon: Download,      label: 'Export Forge'  },
-] as const;
-
-function MastersBar({
-  tier,
-  onLibrary,
-  onPlayground,
-  onDiff,
-  onExport,
-}: {
-  tier: 'order' | 'masters';
-  onAscend: () => void;
-  onLibrary?: () => void;
-  onPlayground?: () => void;
-  onDiff?: () => void;
-  onExport?: () => void;
-}) {
-  const handlers: Record<string, (() => void) | undefined> = {
-    library: onLibrary,
-    playground: onPlayground,
-    diff: onDiff,
-    export: onExport,
-  };
-
-  if (tier === 'masters') {
-    return (
-      <div className="flex items-center gap-1.5">
-        {MASTERS_TOOLS.map(({ key, icon: Icon, label }) => (
-          <button
-            key={key}
-            type="button"
-            onClick={handlers[key]}
-            title={label}
-            aria-label={label}
-            className="inline-flex items-center justify-center rounded border border-templar-sand/30 bg-black/30 p-2 text-templar-sand/70 transition-colors hover:border-templar-sand/60 hover:text-templar-sand"
-          >
-            <Icon className="h-3.5 w-3.5" />
-          </button>
-        ))}
-      </div>
-    );
-  }
-
-  // Order tier — show locked buttons that open the upsell
-  return (
-    <div className="flex items-center gap-1.5">
-      {MASTERS_TOOLS.map(({ key, icon: Icon, label }) => (
-        <button
-          key={key}
-          type="button"
-          disabled
-          title={`${label} — Coming soon`}
-          aria-label={`${label} — Coming soon`}
-          className="inline-flex cursor-not-allowed items-center justify-center rounded border border-templar-sand/10 bg-black/20 p-2 text-templar-text/20"
-        >
-          <Icon className="h-3.5 w-3.5" />
-          <span className="absolute -right-1 -top-1 opacity-0 transition-opacity group-hover:opacity-100">
-            <MastersBadge size="sm" />
-          </span>
-        </button>
-      ))}
-    </div>
-  );
-}
 
 function ModeToggle({ mode, onChange }: { mode: ModeChoice; onChange: (m: ModeChoice) => void }) {
   const opt = (m: ModeChoice, label: string) => {
