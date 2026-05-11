@@ -34,8 +34,8 @@ Valerius takes a plain-English brief and forges it into a production-grade AI ag
 |---|---|---|
 | 🌐 | **Web App** — live at [valerius-forge.vercel.app](https://valerius-forge.vercel.app) | Open in browser |
 | ⚔️ | **CLI** — forge prompts from your terminal | `npm install -g @fratresxai/valerius` |
-| 🛡️ | **VS Code / Cursor Extension** — forge from the command palette | See [`valerius-vscode/`](./valerius-vscode) |
-| 🪄 | **Raycast Extension** — forge from your launcher | See [`valerius-raycast/`](./valerius-raycast) |
+| 🛡️ | **VS Code / Cursor Extension** — forge from the command palette | [Download `.vsix`](https://github.com/FratresMedAI/Valerius-Forge/releases/latest) |
+| 🪄 | **Raycast Extension** — forge from your launcher | Coming soon |
 
 ---
 
