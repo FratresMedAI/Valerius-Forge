@@ -1,0 +1,57 @@
+{
+  "name": "valerius-forge",
+  "displayName": "Valerius Forge",
+  "description": "Forge AI-ready agent prompts and project briefs directly in your editor",
+  "version": "0.1.0",
+  "publisher": "FratresMedAI",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["AI", "Other"],
+  "keywords": ["ai", "prompt", "agent", "forge", "cursor", "llm", "byok"],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "valerius.forge", "title": "Valerius: Open Forge" },
+      { "command": "valerius.forgeSelection", "title": "Valerius: Forge Selected Text" },
+      { "command": "valerius.setApiKey", "title": "Valerius: Set API Key" },
+      { "command": "valerius.setProvider", "title": "Valerius: Set Provider" },
+      { "command": "valerius.clearApiKey", "title": "Valerius: Clear API Key" }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "valerius.forgeSelection",
+          "when": "editorHasSelection",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Valerius",
+      "properties": {
+        "valerius.defaultMode": {
+          "type": "string",
+          "default": "auto",
+          "enum": ["auto", "agent", "project"],
+          "description": "Default forge mode"
+        }
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FratresMedAI/Valerius-Forge",
+    "directory": "valerius-vscode"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "vscode:prepublish": "npm run build",
+    "watch": "tsc -watch -p tsconfig.json",
+    "package": "npx @vscode/vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.6.3"
+  }
+}
