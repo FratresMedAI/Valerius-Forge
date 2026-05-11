@@ -97,7 +97,16 @@ export async function runForge(
     clearInterval(spinner);
     process.stderr.write(CLEAR_LINE);
     if (controller.signal.aborted) return fullText;
-    const msg = err instanceof Error ? err.message : String(err);
+    let msg = err instanceof Error ? err.message : String(err);
+    // Make connection errors actionable
+    if (msg === 'fetch failed' || msg.includes('ECONNREFUSED') || msg.includes('ENOTFOUND') || msg.includes('Failed to fetch')) {
+      const base = llmConfig.baseUrl ?? 'http://localhost:11434/v1';
+      if (llmConfig.provider === 'local') {
+        msg = `Could not connect to local LLM at ${base}\n  Is Ollama or LM Studio running? Try: ${c.cyan('ollama serve')}`;
+      } else {
+        msg = `Could not reach ${llmConfig.provider} API. Check your network connection.`;
+      }
+    }
     printError(msg);
     process.exit(1);
   } finally {

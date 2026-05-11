@@ -70,16 +70,36 @@ interface ContentGateResult {
 }
 
 const GATE_PATTERNS: { category: ContentViolationCategory; re: RegExp }[] = [
+  // CSAM
   { category: 'csam', re: /\b(child|children|minor|minors|underage|preteen|kid|kids|toddler|infant)\b[\s\S]{0,40}\b(porn|pornograph|sexual|sexually|nude|nudity|naked|abuse|exploit|exploitation|csam|cp\b|grooming|seduce|rape|molest)/i },
   { category: 'csam', re: /\b(porn|sexual|nude|nudity|naked|abuse|exploit|grooming|molest)\b[\s\S]{0,40}\b(child|children|minor|minors|underage|preteen|kid|kids|toddler|infant)/i },
+  { category: 'csam', re: /\b(csam|child sexual abuse material|child pornography|child porn|cp porn|loli|lolicon|shota|shotacon)\b/i },
+  // Terrorism
   { category: 'terrorism_weapons', re: /\b(plan|planning|carry out|commit|execute|conduct|stage)\b[\s\S]{0,30}\b(attack|terror|terrorism|terrorist|bombing|massacre|mass shooting|school shooting)/i },
   { category: 'terrorism_weapons', re: /\b(make|build|construct|synthesize|assemble)\b[\s\S]{0,30}\b(bomb|explosive|ied|nerve agent|sarin|vx|chemical weapon|biological weapon|bioweapon|dirty bomb|nuclear (?:bomb|weapon|device)|ricin|anthrax|napalm)/i },
+  { category: 'terrorism_weapons', re: /\b(attack|target|hit|bomb|shoot up)\b[\s\S]{0,30}\b(school|church|mosque|synagogue|government building|federal building|airport|crowded|crowd|police station|hospital)/i },
+  // Fraud
   { category: 'fraud_scam', re: /\b(fraud|scam|scammer|scamming|defraud|swindle|phish|phishing|launder|laundering)\b[\s\S]{0,40}\b(bot|agent|tool|system|workflow|operation|business|people|users|elderly|customers|seniors|victims)/i },
+  { category: 'fraud_scam', re: /\b(steal|drain|empty|siphon|skim)\b[\s\S]{0,30}\b(money|funds|account|accounts|wallet|wallets|crypto|credit card|credit cards|card numbers?|card details?)\b/i },
+  { category: 'fraud_scam', re: /\b(phish(?:ing)?|phishing email|spear.?phish)\b[\s\S]{0,60}\b(steal|harvest|grab|capture|collect)\b/i },
+  { category: 'fraud_scam', re: /\b(romance scam|pig butchering|419|nigerian prince|sweepstakes scam|tech support scam|grandparent scam|irs scam|wire fraud|invoice fraud|business email compromise|bec scam)\b/i },
+  // Drugs
   { category: 'illicit_drugs', re: /\b(synthesize|cook|manufacture|how (?:do|to) (?:i )?make|recipe for|step[- ]by[- ]step)\b[\s\S]{0,30}\b(meth|methamphetamine|fentanyl|heroin|cocaine|crack cocaine|mdma|ecstasy|lsd|gbl|gbh|krokodil|carfentanil)/i },
+  // Malware
   { category: 'malware_harm', re: /\b(write|build|create|develop|generate|make me)\b[\s\S]{0,30}\b(ransomware|keylogger|stealer|infostealer|rootkit|botnet|ddos tool|credential stealer|banking trojan|crypto drainer|wallet drainer)/i },
+  // Account compromise
+  { category: 'account_compromise', re: /\b(?:logs?|logging|signs?|signing)\s+in(?:to)?\b[\s\S]{0,40}\b(bank(?:ing)?|brokerage|fidelity|schwab|vanguard|robinhood|coinbase|binance|kraken|chase|wells fargo|bank of america|citibank|capital one|paypal|venmo|cash app|zelle|ach|wire transfer)\b/i },
   { category: 'account_compromise', re: /\b(bypass|circumvent|crack|brute[- ]?force)\b[\s\S]{0,30}\b(2fa|two[- ]factor|mfa|otp|password|login|captcha|rate ?limit|paywall)\b/i },
-  { category: 'credential_theft', re: /\b(steal|harvest|grab|capture|exfiltrate|sniff|intercept|phish|skim)\b[\s\S]{0,30}\b(password|passwords|credentials?|cookies|session(?: tokens?)?|api keys?|2fa codes?|otps?|seed phrase|private keys?)\b/i },
+  // Financial automation
+  { category: 'financial_automation', re: /\b(auto(?:matic(?:ally)?)?|programmatic(?:ally)?|without (?:my )?(?:approval|confirmation))\b[\s\S]{0,40}\b(transfers?|sends?|moves?|wires?|withdraws?|drains?)\b[\s\S]{0,30}\b(money|funds|balance|cash|dollars?|btc|eth|crypto|account)\b/i },
+  // Credential theft
+  { category: 'credential_theft', re: /\b(steal|harvest|grab|capture|exfiltrate|sniff|intercept|phish|skim)\b[\s\S]{0,30}\b(password|passwords|credentials?|cookies|session(?: tokens?)?|api keys?|2fa codes?|otps?|seed phrase|private keys?|wallet keys?)\b/i },
+  { category: 'credential_theft', re: /\b(keylogger|password stealer|credential stealer|info ?stealer|cookie stealer|session hijacker|token grabber)\b/i },
+  // Targeted violence
   { category: 'targeted_violence', re: /\b(kill|murder|assassinate|harm|stalk|track down|hurt|attack)\b[\s\S]{0,40}\b(my (?:ex|wife|husband|boss|coworker|neighbor|teacher)|specific person|named individual|this person)\b/i },
+  { category: 'targeted_violence', re: /\b(harassment|harass|intimidat|stalk|threaten|smear)\b[\s\S]{0,30}\b(campaign|operation|coordinated|against)\b[\s\S]{0,40}\b([A-Z][a-z]+ [A-Z][a-z]+|specific person|this person|named person|my (?:ex|boss|neighbor|coworker|teacher))\b/ },
+  { category: 'targeted_violence', re: /\b(targeted|coordinate[d]?)\b[\s\S]{0,20}\b(harassment|abuse|bullying|hate campaign|smear campaign|intimidation)\b/i },
+  { category: 'targeted_violence', re: /\b(find|dox|doxx|expose|leak)\b[\s\S]{0,30}\b(home address|personal address|real name|ssn|social security|phone number)\b[\s\S]{0,40}\b(so (?:i|we) can|to (?:hurt|harm|kill|attack|confront|threaten))/i },
 ];
 
 function evaluateContent(input: string): ContentGateResult {
@@ -329,8 +349,11 @@ export class ForgePanel {
     const decoder = new TextDecoder();
     let buf = '';
 
-    while (true) {
-      const { done, value } = await reader.read();
+    let done = false;
+    while (!done) {
+      const result = await reader.read();
+      done = result.done;
+      const value = result.value;
       if (done) break;
       buf += decoder.decode(value, { stream: true });
       let idx: number;

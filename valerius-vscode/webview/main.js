@@ -19,6 +19,25 @@
   let selectedMode = 'auto';
   let isForging = false;
 
+  // Token buffer: batch DOM writes via rAF to prevent jank on long outputs
+  let tokenBuffer = '';
+  let rafPending = false;
+  function flushTokenBuffer() {
+    if (tokenBuffer) {
+      outputEl.textContent += tokenBuffer;
+      tokenBuffer = '';
+      outputEl.scrollTop = outputEl.scrollHeight;
+    }
+    rafPending = false;
+  }
+  function appendToken(text) {
+    tokenBuffer += text;
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(flushTokenBuffer);
+    }
+  }
+
   // Mode buttons
   document.querySelectorAll('.mode-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -106,12 +125,11 @@
         if (!outputSection.classList.contains('visible')) {
           outputSection.classList.add('visible');
         }
-        outputEl.textContent += msg.text;
-        // Auto-scroll to bottom
-        outputEl.scrollTop = outputEl.scrollHeight;
+        appendToken(msg.text);
         break;
 
       case 'done':
+        flushTokenBuffer();
         stopForge();
         break;
 

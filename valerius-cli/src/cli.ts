@@ -8,7 +8,7 @@ import { c, gold, ember, steel, symbol } from './colors.js';
 import { COMMON_MODELS } from './models.js';
 import { PROVIDER_LABELS, DEFAULT_LOCAL_BASE_URL, type Provider } from './llm.js';
 
-const VERSION = '0.1.4';
+const VERSION = '0.1.5';
 
 // ─── Banner ───────────────────────────────────────────────────────────────
 function banner(): string {
@@ -202,13 +202,29 @@ program
   });
 
 // ── forge ─────────────────────────────────────────────────────────────────
-program
+const forgeCmd = program
   .command('forge [brief]')
   .description('Forge an AI agent prompt or project brief')
   .option('-m, --mode <mode>', 'Output mode: auto | agent | project', 'auto')
   .option('-c, --copy', 'Copy output to clipboard after forging')
   .option('--model <model>', 'Override the configured model for this run')
-  .option('--provider <provider>', 'Override the configured provider for this run')
+  .option('--provider <provider>', 'Override the configured provider for this run');
+
+forgeCmd.configureOutput({ writeErr: () => {} });
+forgeCmd.exitOverride((err) => {
+  if (err.code === 'commander.unknownOption') {
+    const suspect = process.argv.slice(3).find(a => a.startsWith('-'));
+    process.stderr.write(
+      `${symbol.err} ${c.red(`Unknown option: ${suspect ?? err.message}`)}\n` +
+      `  If your brief starts with dashes, use ${gold('--')} to separate it:\n` +
+      `  ${c.gray('$')} ${gold('valerius forge -- "your brief"')}\n`
+    );
+    process.exit(1);
+  }
+  throw err;
+});
+
+forgeCmd
   .action(async (briefArg: string | undefined, options: {
     mode: string;
     copy?: boolean;
@@ -406,4 +422,28 @@ async function copyToClipboard(output: string): Promise<void> {
 if (process.argv.length <= 2) {
   program.help();
 }
+
+// Suppress Commander's default error output so we can replace it with branded messages.
+program.configureOutput({
+  writeErr: () => { /* handled in exitOverride */ },
+});
+
+program.exitOverride((err) => {
+  if (err.code === 'commander.unknownOption') {
+    const suspect = process.argv.slice(3).find(a => a.startsWith('-'));
+    process.stderr.write(
+      `${symbol.err} ${c.red(`Unknown option: ${suspect ?? err.message}`)}\n` +
+      `  If your brief starts with dashes, use ${gold('--')} to separate it:\n` +
+      `  ${c.gray('$')} ${gold(`valerius forge -- "your brief"`)}\n`
+    );
+    process.exit(1);
+  }
+  if (err.code === 'commander.helpDisplayed' || err.code === 'commander.version') {
+    process.exit(0);
+  }
+  // For anything else, show generic branded error
+  process.stderr.write(`${symbol.err} ${c.red(err.message)}\n`);
+  process.exit(1);
+});
+
 program.parse();
