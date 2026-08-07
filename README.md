@@ -1,3 +1,16 @@
+## Maturity
+
+| Field | Value |
+|---|---|
+| **Status** | Portfolio demo |
+| **Maturity** | Medium |
+| **Field-ready** | No — not clinical, not field-certified |
+| **Last reviewed** | 2026-08-07 |
+
+AI-ready prompt forge portfolio demo deployed on Vercel.
+
+---
+
 <div align="center">
   <img src="https://valerius-forge.vercel.app/templar-helm.png" alt="Valerius Helm" width="110" />
   <br />
