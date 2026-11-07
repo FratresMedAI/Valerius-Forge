@@ -159,12 +159,6 @@ Valerius-Forge/
 
 ---
 
-## Agensi skill pack
-
-Agent-installable skills (packaging only, same forge method as the app) live in [`agensi/`](agensi/). See [`agensi/HOW_TO_LIST.md`](agensi/HOW_TO_LIST.md) for upload steps. Zip **`agensi/valerius-forge/`** for the marketplace; do not upload `node_modules` or the full monorepo.
-
----
-
 ## License
 
 MIT — built by [Fratres X AI](https://github.com/FratresMedAI)

@@ -30,7 +30,3 @@ cd Valerius-Forge
 1. One focused change per PR.
 2. Run `node scripts/gate-test.mjs` if you touch `contentGate` or shared safety patterns.
 3. Do not commit secrets, `.env.local`, or API keys.
-
-## Agensi skill pack
-
-Source for the marketplace listing lives under [`agensi/`](agensi/). That folder is packaging only, not the runtime app.

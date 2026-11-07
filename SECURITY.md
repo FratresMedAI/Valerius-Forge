@@ -14,7 +14,7 @@ If you find a security issue in this repository:
 
 This policy covers the Valerius-Forge repository (web app, CLI, editor extensions) and published packages such as `@fratresxai/valerius`.
 
-Out of scope: abuse of third-party LLM provider accounts, prompts users choose to send to their own models, and marketplace copies of Agensi skill packs (report those via Agensi if the listing itself is malicious).
+Out of scope: abuse of third-party LLM provider accounts and prompts users choose to send to their own models.
 
 ## Content gate
 
