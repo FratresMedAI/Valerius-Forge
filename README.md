@@ -5,7 +5,7 @@
 | **Status** | Portfolio demo |
 | **Maturity** | Medium |
 | **Field-ready** | No — not clinical, not field-certified |
-| **Last reviewed** | 2026-08-07 |
+| **Last reviewed** | 2026-11-07 |
 
 AI-ready prompt forge portfolio demo deployed on Vercel.
 
@@ -24,6 +24,7 @@ AI-ready prompt forge portfolio demo deployed on Vercel.
     <a href="./valerius-raycast">Raycast Extension</a>
   </p>
   <br />
+  <a href="https://github.com/FratresMedAI/Valerius-Forge/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/FratresMedAI/Valerius-Forge/ci.yml?branch=main&label=CI&labelColor=1a1a1a&color=D4C7A5&style=for-the-badge" alt="CI" /></a>
   <a href="https://www.npmjs.com/package/@fratresxai/valerius"><img src="https://img.shields.io/npm/v/@fratresxai/valerius?color=D4C7A5&labelColor=1a1a1a&label=npm&style=for-the-badge" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D18-D4C7A5?style=for-the-badge&labelColor=1a1a1a" alt="node ≥18" />
   <img src="https://img.shields.io/badge/BYOK-no%20middleman-D4C7A5?style=for-the-badge&labelColor=1a1a1a" alt="BYOK" />
@@ -155,6 +156,12 @@ Valerius-Forge/
 ├── valerius-vscode/      # VS Code / Cursor extension
 └── valerius-raycast/     # Raycast extension
 ```
+
+---
+
+## Agensi skill pack
+
+Agent-installable skills (packaging only, same forge method as the app) live in [`agensi/`](agensi/). See [`agensi/HOW_TO_LIST.md`](agensi/HOW_TO_LIST.md) for upload steps. Zip **`agensi/valerius-forge/`** for the marketplace; do not upload `node_modules` or the full monorepo.
 
 ---
 

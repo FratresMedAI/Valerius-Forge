@@ -2,6 +2,7 @@
   "name": "valerius",
   "private": true,
   "version": "0.1.0",
+  "license": "MIT",
   "type": "module",
   "description": "Don't just write code. Command it.",
   "scripts": {
